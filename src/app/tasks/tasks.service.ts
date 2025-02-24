@@ -3,6 +3,13 @@ import { NewTaskData } from '../user/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class TasksService {
+  constructor() {
+    const tasks = localStorage.getItem('tasks');
+    if (tasks) {
+      this.tasks = JSON.parse(tasks);
+    }
+  }
+
   private tasks = [
     {
       id: 't1',
@@ -45,5 +52,9 @@ export class TasksService {
 
   removeTask(id: string) {
     this.tasks = this.tasks.filter((task) => task.id !== id);
+  }
+
+  private saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
   }
 }
